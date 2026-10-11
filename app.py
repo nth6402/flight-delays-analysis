@@ -14,13 +14,13 @@ st.title("Flight Delays Analysis Dashboard")
 
 @st.cache_data
 def load_data():
-  file_name = "flights.csv"
+  file_name = "flights_sample_3m.csv"
   df = pd.read_csv(file_name, nrows=100000)
   return df
 
 
 try:
-  with st.spinner("جاري تحميل وتحليل بيانات الطيران تلقائياً..."):
+  with st.spinner("Loading flight data automatically..."):
     df_sample = load_data()
 
   st.subheader("Data Overview")
@@ -93,6 +93,6 @@ try:
 
 except Exception as e:
   st.error(
-      f"تعذر تحميل ملف البيانات تلقائياً. تأكدي من أن اسم الملف داخل مستودع"
-      f" GitHub يطابق الاسم الموجود في الكود. التفاصيل: {e}"
+      f"Error loading data automatically. Please make sure the file name in"
+      f" GitHub matches the code. Details: {e}"
   )
