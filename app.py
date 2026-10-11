@@ -83,7 +83,7 @@ try:
           y=delay_col,
           title="Top 10 Delayed Airports",
       )
-      else:
+    else:
       airport_data = df_sample[origin_col].value_counts().reset_index().head(10)
       airport_data.columns = [origin_col, "Count"]
       fig2 = px.bar(
@@ -93,7 +93,6 @@ try:
 
 except Exception as e:
   st.error(
-      f"Error loading data automatically. Please make sure the file name in"
-      f" GitHub matches the code. Details: {e}"
+      f"تعذر تحميل ملف البيانات تلقائياً. تأكدي من أن اسم الملف داخل مستودع"
+      f" GitHub يطابق الاسم الموجود في الكود. التفاصيل: {e}"
   )
-  
