@@ -14,8 +14,10 @@ st.title("Flight Delays Analysis Dashboard")
 
 @st.cache_data
 def load_data():
-  file_name = "flag1.csv"
-  df = pd.read_csv(file_name, nrows=30000)
+  data_url = (
+      "https://raw.githubusercontent.com/mwaskom/seaborn-data/master/flights.csv"
+  )
+  df = pd.read_csv(data_url)
   return df
 
 
@@ -28,28 +30,35 @@ try:
 
   df_sample.columns = df_sample.columns.str.upper().str.strip()
 
-  if "AIRLINE" in df_sample.columns and "DEVELAY" in df_sample.columns:
-    st.subheader("Top 10 Delayed Airlines")
-    airline_data = (
-        df_sample.groupby("AIRLINE")["DEVELAY"]
-        .sum()
-        .reset_index()
-        .sort_values(by="DEVELAY", ascending=False)
-        .head(10)
+  if "YEAR" in df_sample.columns and "PASSENGERS" in df_sample.columns:
+    st.subheader("Passengers Trend by Year")
+    yearly_data = (
+        df_sample.groupby("YEAR")["PASSENGERS"].sum().reset_index()
     )
-    fig1 = px.bar(
-        airline_data,
-        x="AIRLINE",
-        y="DEVELAY",
-        title="Top 10 Delayed Airlines",
+    fig1 = px.line(
+        yearly_data,
+        x="YEAR",
+        y="PASSENGERS",
+        markers=True,
+        title="Total Passengers Over Years",
     )
     st.plotly_chart(fig1, use_container_width=True)
-  else:
-    st.subheader("Data Preview")
-    st.dataframe(df_sample.head())
+
+  if "MONTH" in df_sample.columns and "PASSENGERS" in df_sample.columns:
+    st.subheader("Passengers Distribution by Month")
+    monthly_data = (
+        df_sample.groupby("MONTH")["PASSENGERS"].sum().reset_index()
+    )
+    fig2 = px.bar(
+        monthly_data,
+        x="MONTH",
+        y="PASSENGERS",
+        title="Total Passengers by Month",
+    )
+    st.plotly_chart(fig2, use_container_width=True)
+
+  st.subheader("Data Table Preview")
+  st.dataframe(df_sample)
 
 except Exception as e:
-  st.error(
-      f"Error loading data automatically. Please make sure the file name in"
-      f" GitHub matches the code. Details: {e}"
-  )
+  st.error(f"Error loading data automatically. Details: {e}")
