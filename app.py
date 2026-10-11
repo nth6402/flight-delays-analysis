@@ -1,4 +1,4 @@
-  import os
+import os
 import sys
 
 os.environ["STREAMLIT_SERVER_MAX_UPLOAD_SIZE"] = "1000"
@@ -87,12 +87,4 @@ try:
       airport_data = df_sample[origin_col].value_counts().reset_index().head(10)
       airport_data.columns = [origin_col, "Count"]
       fig2 = px.bar(
-          airport_data, x=origin_col, y="Count", title="Top 10 Airports Count"
-      )
-    st.plotly_chart(fig2, use_container_width=True)
-
-except Exception as e:
-  st.error(
-       f"Error loading data automatically. Please make sure the file name in"
-      f" GitHub matches the code. Details: {e}"
-  )
+          airport_data, x=origin_col, y="Count",
