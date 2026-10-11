@@ -14,8 +14,10 @@ st.title("Flight Delays Analysis Dashboard")
 
 @st.cache_data
 def load_data():
-  file_name = "flights_sample_3m.csv"
-  df = pd.read_csv(file_name, nrows=100000)
+  data_url = (
+      "https://raw.githubusercontent.com/username/repository/main/flights_sample_3m.csv"
+  )
+  df = pd.read_csv(data_url, nrows=100000)
   return df
 
 
@@ -92,7 +94,4 @@ try:
     st.plotly_chart(fig2, use_container_width=True)
 
 except Exception as e:
-  st.error(
-      f"Error loading data automatically. Please make sure the file name in"
-      f" GitHub matches the code. Details: {e}"
-  )
+  st.error(f"Error loading data automatically. Details: {e}")
