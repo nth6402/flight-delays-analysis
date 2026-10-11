@@ -14,8 +14,10 @@ st.title("Flight Delays Analysis Dashboard")
 
 @st.cache_data
 def load_data():
-  file_name = "flag1.csv"
-  df = pd.read_csv(file_name, nrows=30000)
+  data_url = (
+      "https://raw.githubusercontent.com/mwaskom/seaborn-data/master/flights.csv"
+  )
+  df = pd.read_csv(data_url, nrows=30000)
   return df
 
 
