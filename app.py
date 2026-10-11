@@ -14,8 +14,8 @@ st.title("Flight Delays Analysis Dashboard")
 
 @st.cache_data
 def load_data():
-  file_name = "flights_sample_3m.csv"
-  df = pd.read_csv(file_name, nrows=100000)
+  file_name = "flag1.csv"
+  df = pd.read_csv(file_name, nrows=30000)
   return df
 
 
