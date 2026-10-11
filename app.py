@@ -14,10 +14,8 @@ st.title("Flight Delays Analysis Dashboard")
 
 @st.cache_data
 def load_data():
-  data_url = (
-      "https://raw.githubusercontent.com/username/repository/main/flights_sample_3m.csv"
-  )
-  df = pd.read_csv(data_url, nrows=100000)
+  file_name = "flights_sample_3m.csv"
+  df = pd.read_csv(file_name, nrows=100000)
   return df
 
 
@@ -53,45 +51,3 @@ try:
           .sum()
           .reset_index()
           .sort_values(by=delay_col, ascending=False)
-          .head(10)
-      )
-      fig1 = px.bar(
-          airline_data,
-          x=airline_col,
-          y=delay_col,
-          title="Top 10 Delayed Airlines",
-      )
-    else:
-      airline_data = df_sample[airline_col].value_counts().reset_index().head(10)
-      airline_data.columns = [airline_col, "Count"]
-      fig1 = px.bar(
-          airline_data, x=airline_col, y="Count", title="Top 10 Airlines Count"
-      )
-    st.plotly_chart(fig1, use_container_width=True)
-
-  if origin_col:
-    st.subheader(f"Delays by Airport ({origin_col})")
-    if delay_col:
-      airport_data = (
-          df_sample.groupby(origin_col)[delay_col]
-          .sum()
-          .reset_index()
-          .sort_values(by=delay_col, ascending=False)
-          .head(10)
-      )
-      fig2 = px.bar(
-          airport_data,
-          x=origin_col,
-          y=delay_col,
-          title="Top 10 Delayed Airports",
-      )
-    else:
-      airport_data = df_sample[origin_col].value_counts().reset_index().head(10)
-      airport_data.columns = [origin_col, "Count"]
-      fig2 = px.bar(
-          airport_data, x=origin_col, y="Count", title="Top 10 Airports Count"
-      )
-    st.plotly_chart(fig2, use_container_width=True)
-
-except Exception as e:
-  st.error(f"Error loading data automatically. Details: {e}")
